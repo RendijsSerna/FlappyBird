@@ -30,9 +30,9 @@ class GameController:
 
         if len(self.pipes) == 0 or self.pipes[-1].x < self.width - 200:
             pipe_gap = 200
-            pipe_height = 300
+            pipe_height = random.randint(100, 400)
             self.pipes.append(Pipe(self.width, 0, pipe_height))
-            self.pipes.append(Pipe(self.width, pipe_height + pipe_gap, self.height - pipe_height - pipe_gap))
+            #self.pipes.append(Pipe(self.width, pipe_height + pipe_gap, self.height - pipe_height - pipe_gap))
 
         for pipe in self.pipes:
             pipe.update()
@@ -40,9 +40,9 @@ class GameController:
             # this needs to be changed
             if self.bird.x + 30 > pipe.x and self.bird.x < pipe.x + pipe.width:
                 if self.bird.y < pipe.y or self.bird.y + 30 > pipe.y + pipe.height:
-                    print(self.bird.x)
+                    pass
 
-            if self.bird.y > 550 or self.bird.y < 0 :
+            if self.bird.y > 550 or self.bird.y < 0:
                 self.started = False
 
     def run(self):
