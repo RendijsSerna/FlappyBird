@@ -1,5 +1,7 @@
 import pygame
 
+import asyncio
+
 
 class Renderer:
     def __init__(self):
@@ -9,6 +11,9 @@ class Renderer:
         self.background = pygame.image.load("assets/images/background-day.png")
         self.base = pygame.image.load("assets/images/base.png")
         self.bird = pygame.image.load("assets/images/yellowbird-downflap.png")
+        self.bird1 = pygame.image.load("assets/images/yellowbird-midflap.png")
+        self.bird2 = pygame.image.load("assets/images/yellowbird-upflap.png")
+
         self.pipe = pygame.image.load("assets/images/pipe-green.png")
 
     def render(self, bird, pipes):
@@ -18,7 +23,15 @@ class Renderer:
 
         self.screen.blit(self.background, (0, 0))
         self.screen.blit(self.base, (0, 570))
-        self.screen.blit(self.bird, (bird.x, bird.y))
+
+        # this needs to be remade
+        if bird.test:
+            self.screen.blit(self.bird1, (bird.x, bird.y))
+            self.screen.blit(self.bird2, (bird.x, bird.y))
+            bird.test = False
+
+        else:
+            self.screen.blit(self.bird, (bird.x, bird.y))
 
         for pipe in pipes:
             flipped_pipe = pygame.transform.flip(self.pipe, False, True)

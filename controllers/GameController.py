@@ -4,6 +4,7 @@ import pygame
 from models.Bird import Bird
 from models.Pipe import Pipe
 from views.Render import Renderer
+from models.Score import Score
 
 
 class GameController:
@@ -21,6 +22,7 @@ class GameController:
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
+                    self.bird.test = True
                     self.bird.jump()
 
     def update(self):
@@ -44,6 +46,7 @@ class GameController:
                     )
             ):
                 self.started = False
+            else:
 
             if self.bird.y + self.bird.size_y > 550 or self.bird.y + self.bird.x < 0:
                 self.started = False
