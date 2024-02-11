@@ -3,6 +3,8 @@ class Bird:
         self.x = x
         self.y = y
         self.velocity = 0
+        self.size_x = 34
+        self.size_y = 24
 
     def update(self):
         self.velocity += 1

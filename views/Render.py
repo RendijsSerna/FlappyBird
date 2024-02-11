@@ -21,10 +21,9 @@ class Renderer:
         self.screen.blit(self.bird, (bird.x, bird.y))
 
         for pipe in pipes:
-            pygame.draw.rect(self.screen, (0, 255, 0), (pipe.x, pipe.y, pipe.width, pipe.height))
-
-            mirrored_y = pipe.height + 150
-            mirrored_height = 600 - mirrored_y
-            pygame.draw.rect(self.screen, (255, 255, 0), (pipe.x, mirrored_y, pipe.width, mirrored_height))
+            flipped_pipe = pygame.transform.flip(self.pipe, False, True)
+            flipped_pipe = pygame.transform.scale(flipped_pipe, (pipe.size_x, pipe.height))
+            self.screen.blit(flipped_pipe, (pipe.x, pipe.y))
+            self.screen.blit(self.pipe, (pipe.x, pipe.bottom_pipe_y))
 
         pygame.display.flip()
