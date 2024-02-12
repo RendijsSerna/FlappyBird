@@ -15,6 +15,13 @@ class GameController:
         self.pipes = []
         self.started = True
         self.score = Score()
+        self.pipe_gap = 200
+        self.generate_pipe()
+        self.pipe_generation_interval = 1300
+        self.pipe_generation_timer = pygame.time.get_ticks() + self.pipe_generation_interval
+        self.pipe_number: int = 0
+        self.pipe = self.pipes[self.pipe_number]
+
 
     def handle_events(self):
         for event in pygame.event.get():
@@ -26,14 +33,15 @@ class GameController:
                     self.bird.test = True
                     self.bird.jump()
 
+    def generate_pipe(self):
+        if self.pipe_gap > 90:
+            self.pipe_gap -= 10
+        pipe_height = random.randint(100, 400)
+        mirrored_y = pipe_height + self.pipe_gap
+        self.pipes.append(Pipe(self.width, 0, pipe_height, mirrored_y))
+
     def update(self):
         self.bird.update()
-
-        if len(self.pipes) == 0 or self.pipes[-1].x < self.width - 200:
-            pipe_gap = 200
-            pipe_height = random.randint(100, 400)
-            mirrored_y = pipe_height + pipe_gap
-            self.pipes.append(Pipe(self.width, 0, pipe_height, mirrored_y))
 
         for pipe in self.pipes:
             pipe.update()
@@ -50,8 +58,13 @@ class GameController:
             elif self.bird.x == pipe.x:
                 self.score.score += 1
 
-            if self.bird.y + self.bird.size_y > 550 or self.bird.y + self.bird.x < 0:
-                self.started = False
+        if self.bird.y + self.bird.size_y > 550 or self.bird.y + self.bird.y < 0:
+            self.started = False
+
+        current_time = pygame.time.get_ticks()
+        if current_time >= self.pipe_generation_timer:
+            self.generate_pipe()
+            self.pipe_generation_timer = current_time + self.pipe_generation_interval
 
     def run(self):
         pygame.init()

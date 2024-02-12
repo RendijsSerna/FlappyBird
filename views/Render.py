@@ -22,6 +22,7 @@ class Renderer:
         self.bird2 = pygame.image.load("assets/images/yellowbird-upflap.png")
         self.numbers = load_number_images()
         self.pipe = pygame.image.load("assets/images/pipe-green.png")
+        self.pipe2 = pygame.image.load("assets/images/pipe-red.png")
 
     def render(self, bird, pipes, score):
         self.screen.fill((0, 0, 0))
@@ -29,9 +30,8 @@ class Renderer:
         self.base = pygame.transform.scale(self.base, (self.width, 200))
 
         self.screen.blit(self.background, (0, 0))
-        self.screen.blit(self.base, (0, 570))
 
-        # this needs to be remade
+        # animation needs to be reworked
         if bird.test:
             self.screen.blit(self.bird1, (bird.x, bird.y))
             self.screen.blit(self.bird2, (bird.x, bird.y))
@@ -39,13 +39,20 @@ class Renderer:
         else:
             self.screen.blit(self.bird, (bird.x, bird.y))
 
+        # this needs to be reworked based on list[Pipes]
         for pipe in pipes:
             flipped_pipe = pygame.transform.flip(self.pipe, False, True)
             flipped_pipe = pygame.transform.scale(flipped_pipe, (pipe.size_x, pipe.height))
             self.screen.blit(flipped_pipe, (pipe.x, pipe.y))
             self.screen.blit(self.pipe, (pipe.x, pipe.bottom_pipe_y))
 
+
+        # this needs to be fixed so it changes new pipes only
+        if score.score > 6:
+            self.pipe = self.pipe2
+
         self.render_score(score.score)
+        self.screen.blit(self.base, (0, 570))
 
         pygame.display.flip()
 
