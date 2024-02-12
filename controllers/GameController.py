@@ -14,6 +14,7 @@ class GameController:
         self.bird = Bird(100, 300)
         self.pipes = []
         self.started = True
+        self.score = Score()
 
     def handle_events(self):
         for event in pygame.event.get():
@@ -46,7 +47,8 @@ class GameController:
                     )
             ):
                 self.started = False
-            else:
+            elif self.bird.x == pipe.x:
+                self.score.score += 1
 
             if self.bird.y + self.bird.size_y > 550 or self.bird.y + self.bird.x < 0:
                 self.started = False
@@ -59,5 +61,5 @@ class GameController:
         while self.started:
             self.handle_events()
             self.update()
-            renderer.render(self.bird, self.pipes)
+            renderer.render(self.bird, self.pipes, self.score)
             clock.tick(30)
